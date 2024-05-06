@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="styles.css" />
+    <title>Admin Panel</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Poppins", sans-serif;
+      }
+      body {
+        min-height: 100vh;
+      }
+      a {
+        text-decoration: none;
+      }
+      li {
+        list-style: none;
+      }
+      h1,
+      h2 {
+        color: #444;
+      }
+      h3 {
+        color: #999;
+      }
+      .btn {
+        background: #f05462;
+        color: white;
+        padding: 5px 10px;
+        text-align: center;
+        border: none;
+      }
+      .btn:hover {
+        color: #f05462;
+        background: white;
+        border: 2px solid #f05462;
+        border: none;
+      }
+      .title {
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+        padding: 15px 10px;
+        border-bottom: 2px solid #999;
+      }
+
+      table {
+        padding: 10px;
+      }
+      th,
+      td {
+        text-align: left;
+        padding: 8px;
+      }
+      .side-menu {
+        position: fixed;
+        background: #f05462;
+        width: 20vw;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+      }
+      .side-menu .brand-name {
+        height: 10vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-top: 10px;
+        margin-bottom: 50px;
+      }
+      .side-menu li {
+        font-size: 24px;
+        padding: 10px 40px;
+        color: white;
+        display: flex;
+        align-items: center;
+      }
+      .side-menu li:hover {
+        background: white;
+        color: #f05462;
+      }
+      .container {
+        position: absolute;
+        right: 0;
+        width: 80vw;
+        height: 100vh;
+        background: #f1f1f1;
+      }
+      .container .header {
+        position: fixed;
+        top: 0;
+        right: 0;
+        width: 80vw;
+        height: 10vh;
+        background: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+        z-index: 1;
+      }
+      .container .header .nav {
+        width: 90%;
+        display: flex;
+        align-items: center;
+      }
+      .container .header .nav .search {
+        flex: 3;
+        display: flex;
+        justify-content: center;
+      }
+      .container .header .nav .search input[type="text"] {
+        border: none;
+        background: #f1f1f1;
+        padding: 10px;
+        width: 50%;
+      }
+      .container .header .nav .search button {
+        width: 40px;
+        height: 40px;
+        border: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .container .header .nav .search button img {
+        width: 30px;
+        height: 30px;
+      }
+      .container .header .nav .user {
+        flex: 1;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .container .header .nav .user img {
+        width: 40px;
+        height: 40px;
+      }
+      .container .header .nav .user .img-case {
+        position: relative;
+        width: 50px;
+        height: 50px;
+      }
+      .container .header .nav .user .img-case img {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+      }
+      .container .content {
+        top: 50px;
+        position: relative;
+        margin-top: 10vh;
+        min-height: 90vh;
+        background: #f1f1f1;
+      }
+      .container .content .cards {
+        padding: 20px 15px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+      }
+      .container .content .cards .card {
+        width: 250px;
+        height: 150px;
+        background: white;
+        margin: 20px 10px;
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2),
+          0 6px 20px 0 rgba(0, 0, 0, 0.19);
+      }
+      .container .content .content-2 {
+        min-height: 60vh;
+        display: flex;
+        justify-content: space-around;
+        align-items: flex-start;
+        flex-wrap: wrap;
+      }
+      .container .content .content-2 .recent-payments {
+        min-height: 50vh;
+        flex: 5;
+        background: white;
+
+        margin-left: 100px;
+        margin-right: 300px;
+
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2),
+          0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        display: flex;
+        flex-direction: column;
+      }
+
+      .add {
+        display: flex;
+
+        align-items: center;
+        margin-top: 20px;
+        margin-bottom: 30px;
+        margin-left: 400px;
+      }
+
+      .add .btn {
+        margin-right: 10px; /* Adjust the margin as needed */
+      }
+
+      .course-hidden {
+        display: none;
+      }
+
+      .img-case img {
+        margin-left: 230px;
+        border-radius: 100px;
+      }
+
+      @media screen and (max-width: 1050px) {
+        .side-menu li {
+          font-size: 18px;
+        }
+      }
+      @media screen and (max-width: 940px) {
+        .side-menu li span {
+          display: none;
+        }
+        .side-menu {
+          align-items: center;
+        }
+        .side-menu li img {
+          width: 40px;
+          height: 40px;
+        }
+        .side-menu li:hover {
+          background: #f05462;
+          padding: 8px 38px;
+          border: 2px solid white;
+        }
+      }
+      @media screen and (max-width: 536px) {
+        .brand-name h1 {
+          font-size: 16px;
+        }
+        .container .content .cards {
+          justify-content: center;
+        }
+        .side-menu li img {
+          width: 30px;
+          height: 30px;
+        }
+        .container .content .content-2 .recent-payments table th:nth-child(2),
+        .container .content .content-2 .recent-payments table td:nth-child(2) {
+          display: none;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="side-menu">
+      <div class="brand-name">
+        <h1>DegreeTaker</h1>
+      </div>
+      <ul>
+        <li>
+          <img src="dashboard (2).png" alt="" />&nbsp; <span>Dashboard</span>
+        </li>
+        <li>
+          <img src="help-web-button.png" alt="" />&nbsp; <span>Help</span>
+        </li>
+        <li><img src="settings.png" alt="" />&nbsp;<span>Settings</span></li>
+      </ul>
+    </div>
+    <div class="container">
+      <div class="header">
+        <div class="nav">
+          <div class="search">
+            <input type="text" placeholder="Search.." />
+            <button type="submit" class="search-button">
+              <img
+                src="images/magnifying-glass-solid.svg"
+                alt=""
+                style="width: 20px; height: 20px"
+              />
+            </button>
+          </div>
+          <div class="user">
+            <div class="img-case">
+              <img
+                src="images/418249088_6326767580759122_2817121382510075896_n__1_-removebg-preview.png"
+                alt=""
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="content">
+        <div class="content-2">
+          <div class="recent-payments">
+            <div class="title">
+              <h2>Courses</h2>
+            </div>
+            <table>
+              <tr>
+                <th>Course</th>
+                <th>Applications</th>
+              </tr>
+              <tr>
+                <td>College of Agriculture</td>
+
+                <td>0.1</td>
+                <td>
+                  <a href="viewAgri.html" class="btn view-applicants">View</a>
+                </td>
+              </tr>
+              <tr>
+                <td>College of Architecture</td>
+                <td>3</td>
+                <td>
+                  <a
+                    href="viewAgri.html"
+                    class="btn view-applicants"
+                    data-course="architecture"
+                    >View</a
+                  >
+                </td>
+              </tr>
+              <tr>
+                <td>Collge of Asian and Islamic Studies</td>
+
+                <td>420</td>
+                <td>
+                  <a href="viewAgri.html" class="btn view-applicants">View</a>
+                </td>
+              </tr>
+              <tr>
+                <td>Collge of Criminal Justice Education</td>
+
+                <td>69</td>
+                <td>
+                  <a href="viewAgri.html" class="btn view-applicants">View</a>
+                </td>
+              </tr>
+
+              <tr>
+                <td>Collge of Engineering</td>
+
+                <td>666</td>
+                <td>
+                  <a href="viewAgri.html" class="btn view-applicants">View</a>
+                </td>
+              </tr>
+              <tr>
+                <td>Collge of Forestry and Environmental Studies</td>
+
+                <td>10</td>
+                <td>
+                  <a href="viewAgri.html" class="btn view-applicants">View</a>
+                </td>
+              </tr>
+              <tr>
+                <td>Collge of Home Economics</td>
+
+                <td>20</td>
+                <td>
+                  <a href="viewAgri.html" class="btn view-applicants">View</a>
+                </td>
+              </tr>
+              <tr>
+                <td>Collge of Law</td>
+
+                <td>120</td>
+                <td>
+                  <a href="viewAgri.html" class="btn view-applicants">View</a>
+                </td>
+              </tr>
+              <tr class="course-hidden">
+                <td>Collge of Liberal Arts</td>
+
+                <td>120</td>
+                <td>
+                  <a href="viewAgri.html" class="btn view-applicants">View</a>
+                </td>
+              </tr>
+              <tr class="course-hidden">
+                <td>Collge of Nursing</td>
+
+                <td>120</td>
+                <td>
+                  <a href="viewAgri.html" class="btn view-applicants">View</a>
+                </td>
+              </tr>
+              <tr class="course-hidden">
+                <td>
+                  Collge of Public, Administration and Development Studies
+                </td>
+                <td>120</td>
+                <td>
+                  <a href="viewAgri.html" class="btn view-applicants">View</a>
+                </td>
+              </tr>
+              <tr class="course-hidden">
+                <td>Collge of Sports Science and Physical Education</td>
+
+                <td>120</td>
+                <td>
+                  <a href="viewAgri.html" class="btn view-applicants">View</a>
+                </td>
+              </tr>
+              <tr class="course-hidden">
+                <td>Collge of Science and Mathematics</td>
+
+                <td>120</td>
+                <td>
+                  <a href="viewAgri.html" class="btn view-applicants">View</a>
+                </td>
+              </tr>
+              <tr class="course-hidden">
+                <td>Collge of Social Work and Community Development</td>
+
+                <td>120</td>
+                <td>
+                  <a href="viewAgri.html" class="btn view-applicants">View</a>
+                </td>
+              </tr>
+              <tr class="course-hidden">
+                <td>Collge of Teacher Education</td>
+
+                <td>120</td>
+                <td>
+                  <a href="viewAgri.html" class="btn view-applicants">View</a>
+                </td>
+              </tr>
+              <tr class="course-hidden">
+                <td>Collge of Computing Studies</td>
+
+                <td>120</td>
+                <td>
+                  <a href="viewAgri.html" class="btn view-applicants">View</a>
+                </td>
+              </tr>
+            </table>
+            <div class="add">
+              <button id="showMoreBtn" class="btn" onclick="showMoreCourses()">
+                Show More Courses
+              </button>
+              <a href="#" class="btn">Add</a>
+              <a href="#" class="btn">Edit</a>
+              <a href="#" class="btn">Delete</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="overlay" id="overlay1">
+      <div class="overlay-content">
+        <span class="close-btn" onclick="closeOverlay('overlay1')">X</span>
+        <h3>Emails of Applicants for College of Agriculture</h3>
+        <p>Email 1</p>
+        <p>Email 2</p>
+        <!-- Add more emails dynamically -->
+      </div>
+    </div>
+
+    <script>
+      // Function to toggle course visibility
+      function toggleCourseVisibility() {
+        var hiddenCourses = document.querySelectorAll(".course-hidden");
+        var btn = document.getElementById("showMoreBtn");
+        var anyVisible = false;
+
+        hiddenCourses.forEach(function (course) {
+          if (course.style.display === "none") {
+            course.style.display = "table-row";
+            anyVisible = true;
+          } else {
+            course.style.display = "none";
+          }
+        });
+
+        if (anyVisible) {
+          btn.textContent = "Hide Courses";
+        } else {
+          btn.textContent = "Show More Courses";
+        }
+      }
+
+      // Add event listener to the "Show More Courses" button
+      document
+        .getElementById("showMoreBtn")
+        .addEventListener("click", function () {
+          toggleCourseVisibility();
+          if (
+            document.getElementById("showMoreBtn").textContent ===
+            "Show More Courses"
+          ) {
+            initializeOriginalContent();
+          }
+        });
+    </script>
+  </body>
+</html>
